@@ -1,38 +1,31 @@
 (ns wat.core
   (:require [reagent.core :as r]))
 
-(def weights (r/atom ["124"]))
-(def watwat (r/atom "124"))
-
 (defn lister [items]
   [:ul
    (for [item items]
-     ^{:key item} [:li "Item " item])])
+      [:li "Item " item])])
 
-(defn lister-user []
+(defn lister-user [all]
   [:div
    "Here is a list:"
-   [lister @weights]])
+   [lister @all]])
 
-(defn atom-input [value]
-  [:input {:type "text"
-           :value @watwat
-           :on-change #(reset! value (-> % .-target .-value))}])
+(defn atom-input [new all]
+  [:div
+   [:input {:type "text"
+            :value @new
+            :on-change #(reset! new (-> % .-target .-value))}]
+   [:input {:type "button"
+            :value "add"
+            :on-click #((swap! all conj (str @new)) (reset! new "") )}]])
 
-(defn weight-input []
+(defn shared-state []
+  (let [new (r/atom "") all (r/atom [])]
+    (fn []
       [:div
-       [:p "Add weight: " [atom-input @watwat]]])
-
-(defn counting-component []
-  [:div
-   "The atom " [:code "click-count"] " has value: "
-   @watwat ". "])
-
-(defn weighter []
-  [:div
-   [counting-component]
-   [weight-input]
-   [lister-user]])
+       [:p "Change it here: " [atom-input new all]]
+       [:p [lister-user all]]])))
 
 
-(r/render [weighter] (.getElementById js/document "app"))
+(r/render [shared-state] (.getElementById js/document "app"))
