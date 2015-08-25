@@ -22,6 +22,9 @@
       [:p "please run "
        [:b "lein figwheel"]
        " in order to start the compiler"]]
+     (include-js "https://code.jquery.com/jquery-2.1.1.min.js")
+     (include-js "http://code.highcharts.com/highcharts.js")
+     (include-js "http://code.highcharts.com/modules/exporting.js")
      (include-js "js/app.js")]]))
 
 (defroutes routes
