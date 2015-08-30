@@ -1,7 +1,7 @@
 (ns wat.core
   (:require [reagent.core :as r]))
 
-(def chart-config
+(defonce chart-config (r/atom
   {:chart {:type "bar"}
    :title {:text "Historic World Population by Region"}
    :subtitle {:text "Source: Wikipedia.org"}
@@ -23,54 +23,45 @@
             :shadow true}
    :credits {:enabled false}
    :series [{:name "Year 1800"
-             :data [107 31 635 203 2]}
-            {:name "Year 1900"
-             :data [133 156 947 408 6]}
-            {:name "Year 2008"
-             :data [973 914 4054 732 34]}]
-   })
+             :data [107 31 635 203 2]}]
+   }))
 
-(defn lister [items]
-  [:ul
-   (for [item items]
-      [:li "Item " item])])
+(defonce all (r/atom []))
+(defonce new (r/atom ""))
 
-(defn lister-user [all]
-  [:div
-   "Here is a list:"
-   [lister @all]])
-
-(defn atom-input [new all]
+(defn input []
   [:div
    [:input {:type "text"
             :value @new
             :on-change #(reset! new (-> % .-target .-value))}]
    [:input {:type "button"
             :value "add"
-            :on-click #((swap! all conj (str @new)) (reset! new "") )}]])
+            :on-click #((swap! all conj (int @new))
+                        (reset! new "")
+                        (swap! chart-config assoc :series [{:name "what" :data @all}]))}]])
 
-(defn shared-state []
-  (let [new (r/atom "") all (r/atom [])]
-    (fn []
-      [:div
-       [:p "Change it here: " [atom-input new all]]
-       [:p [lister-user all]]])))
+(defn lister []
+  [:ul
+   (for [item @all]
+     [:li item])])
 
-(defn home []
-  [:div [:h1 "Welcome to Reagent Cookbook!"]
+(defn graph-data []
+    (js/$ (fn []
+            (.highcharts (js/$ "#example")
+                         (clj->js @chart-config))))
+  [:p @chart-config])
+
+(defn graph []
+
+  [:div [:h1 "The Graph..."]
    [:div#example {:style {:min-width "310px" :max-width "800px"
                           :height "400px" :margin "0 auto"}}]
-   [shared-state]
-   ])
+   [graph-data]])
 
-(defn home-did-mount []
-  (js/$ (fn []
-          (.highcharts (js/$ "#example")
-                       (clj->js chart-config)))))
+(defn home []
+  [:div
+   [input]
+   [lister]
+   [graph]])
 
-(defn home-component []
-  (r/create-class {:reagent-render home
-                         :component-did-mount home-did-mount}))
-
-(r/render-component [home-component]
-                          (.getElementById js/document "app"))
+(r/render-component [home] (.getElementById js/document "app"))
