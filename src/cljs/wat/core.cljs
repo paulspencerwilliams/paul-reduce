@@ -45,18 +45,20 @@
    (for [item @all]
      [:li item])])
 
-(defn graph-data []
-    (js/$ (fn []
-            (.highcharts (js/$ "#example")
-                         (clj->js @chart-config))))
-  [:p @chart-config])
+(defn graph-render []
+  (let [unused-deref @chart-config]
+    [:div {:style {:min-width "310px" :max-width "800px"
+                   :height "400px" :margin "0 auto"}}]))
 
-(defn graph []
+(defn graph-did-mount [this]
+  (.highcharts (js/$ (r/dom-node this))
+               (clj->js @chart-config)))
 
-  [:div [:h1 "The Graph..."]
-   [:div#example {:style {:min-width "310px" :max-width "800px"
-                          :height "400px" :margin "0 auto"}}]
-   [graph-data]])
+(defn graph [data]
+  (r/create-class {:reagent-render graph-render
+                   :component-did-mount graph-did-mount
+                   :component-did-update graph-did-mount
+                   }))
 
 (defn home []
   [:div
