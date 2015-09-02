@@ -40,11 +40,6 @@
                         (reset! new "")
                         (swap! chart-config assoc :series [{:name "what" :data @all}]))}]])
 
-(defn lister []
-  [:ul
-   (for [item @all]
-     [:li item])])
-
 (defn graph-render []
   (let [unused-deref @chart-config]
     [:div {:style {:min-width "310px" :max-width "800px"
@@ -63,7 +58,6 @@
 (defn home []
   [:div
    [input]
-   [lister]
    [graph]])
 
 (r/render-component [home] (.getElementById js/document "app"))
