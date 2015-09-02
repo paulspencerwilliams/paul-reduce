@@ -1,7 +1,11 @@
 (ns wat.views
     (:require [re-frame.core :as re-frame]))
 
+(defn input []
+  [:div
+   [:input {:type "text"}]
+   [:input {:type "button"
+            :value "add"}]])
+
 (defn main-panel []
-  (let [name (re-frame/subscribe [:name])]
-    (fn []
-      [:div "Hello from " @name])))
+  [:div [input]])
