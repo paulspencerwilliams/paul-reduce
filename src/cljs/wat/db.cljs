@@ -2,8 +2,7 @@
 
 (def default-db
   {:chart-config {:chart {:type "bar"}
-                  :title {:text "Historic World Population by Region"}
-                  :subtitle {:text "Source: Wikipedia.org"}
+                  :title {:text "Pauls reducing reduce"}
                   :xAxis {:categories ["Africa" "America" "Asia" "Europe" "Oceania"]
                           :title {:text nil}}
                   :yAxis {:min 0
