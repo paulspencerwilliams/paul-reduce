@@ -3,6 +3,6 @@
     (:require [re-frame.core :as re-frame]))
 
 (re-frame/register-sub
- :name
+ :chart-config
  (fn [db]
-   (reaction (:name @db))))
+   (reaction (:chart-config @db))))

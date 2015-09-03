@@ -9,17 +9,20 @@
             :value "add"}]])
 
 (defn graph-render []
+  (let [chart-config (re-frame/subscribe [:chart-config])]
     [:div {:style {:min-width "310px" :max-width "800px"
-                   :height "400px" :margin "0 auto"}}])
+                   :height "400px" :margin "0 auto"}}]))
 
-(defn graph-did-mount [this])
+(defn graph-did-mount [this]
+  (let [chart-config (re-frame/subscribe [:chart-config])]
+  (.highcharts (js/$ (reagent/dom-node this))
+               (clj->js @chart-config))))
 
-(defn graph [data]
+(defn graph []
   (reagent/create-class {:reagent-render graph-render
                    :component-did-mount graph-did-mount
                    :component-did-update graph-did-mount
                    }))
-
 
 (defn main-panel []
   [:div [input][graph]])
