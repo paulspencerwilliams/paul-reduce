@@ -10,7 +10,7 @@
 (re-frame/register-handler
   :add-button-clicked
   (fn [_]
-    (let [weights (conj (:weights _) 1)]
+    (let [weights (conj (:weights _) (+ 60 (rand-int 5)))]
       {:weights      weights
        :chart-config (assoc (:chart-config _) :series [{:name "Weight"
                                                         :data weights}])})))
