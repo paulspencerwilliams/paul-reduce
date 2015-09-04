@@ -6,3 +6,8 @@
  :chart-config
  (fn [db]
    (reaction (:chart-config @db))))
+
+(re-frame/register-sub
+  :name
+  (fn [db]
+    (reaction (:name @db))))
