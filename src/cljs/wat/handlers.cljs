@@ -14,5 +14,3 @@
       {:weights      weights
        :chart-config (assoc (:chart-config _) :series [{:name "Weight"
                                                         :data weights}])})))
-
-
