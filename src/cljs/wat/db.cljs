@@ -2,15 +2,14 @@
 
 (def default-db
   {:weights      []
-   :chart-config {:chart       {:type "bar"}
+   :chart-config {:chart       {:type "line"}
                   :title       {:text "Pauls reducing reduce"}
-                  :xAxis       {:categories ["Africa" "America" "Asia" "Europe" "Oceania"]
-                                :title      {:text nil}}
+                  :xAxis       {:type "datetime"
+                                :title      {:text "Date"}}
                   :yAxis       {:min    0
-                                :title  {:text  "Population (millions)"
-                                         :align "high"}
+                                :title  {:text  "Weight (Kg)"}
                                 :labels {:overflow "justify"}}
-                  :tooltip     {:valueSuffix " millions"}
+                  :tooltip     {:valueSuffix " Kgs"}
                   :plotOptions {:bar {:dataLabels {:enabled true}}}
                   :legend      {:layout        "vertical"
                                 :align         "right"
