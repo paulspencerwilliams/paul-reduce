@@ -16,7 +16,6 @@
         [:div.graph {:style {:min-width "310px" :max-width "800px"
                              :height    "400px" :margin "0 auto"}}]))))
 
-
 (defn graph-did-mount [this]
   (let [chart-config (re-frame/subscribe [:chart-config])]
     (.highcharts (js/$ (reagent/dom-node this))
@@ -28,10 +27,5 @@
                          :component-did-update graph-did-mount
                          }))
 
-(defn output-config []
-  (let [chart-config (re-frame/subscribe [:chart-config])]
-    (fn []
-      [:div (str @chart-config)])))
-
 (defn main-panel []
-  [:div [input] [graph] [output-config]])
+  [:div [input][graph]])
