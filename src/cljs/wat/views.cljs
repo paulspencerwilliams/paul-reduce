@@ -2,12 +2,23 @@
   (:require [re-frame.core :as re-frame]
             [reagent.core :as reagent]))
 
-(defn input []
-  [:div
-   [:input {:type "text"}]
-   [:input {:type     "button"
-            :value    "add"
-            :on-click #(re-frame/dispatch [:add-button-clicked])}]])
+(defn date-input []
+  [:input {:type "text"}])
+
+(defn weight-input []
+  [:input {:type "text"}])
+
+(defn save-button []
+  [:input {:type     "button"
+           :value    "add"
+           :on-click #(re-frame/dispatch [:add-button-clicked])}])
+
+(defn form []
+  [:form
+   [:label "Date" [date-input]]
+   [:label "Weight (Kg)" [weight-input]]
+   [save-button]]
+  )
 
 (defn graph-render []
   (let [chart-config (re-frame/subscribe [:chart-config])]
@@ -28,4 +39,4 @@
                          }))
 
 (defn main-panel []
-  [:div [input][graph]])
+  [:div [form] [graph]])
