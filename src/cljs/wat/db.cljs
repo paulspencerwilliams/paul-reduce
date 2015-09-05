@@ -1,26 +1,18 @@
 (ns wat.db)
 
 (def default-db
-  {:entered-date ""
+  {:entered-date   ""
    :entered-weight ""
-   :weights      []
-   :chart-config {:chart       {:type "line"}
-                  :title       {:text "Pauls reducing reduce"}
-                  :xAxis       {:type "datetime"
-                                :title      {:text "Date"}}
-                  :yAxis       {:min    0
-                                :title  {:text  "Weight (Kg)"}
-                                :labels {:overflow "justify"}}
-                  :tooltip     {:valueSuffix " Kgs"}
-                  :plotOptions {:bar {:dataLabels {:enabled true}}}
-                  :legend      {:layout        "vertical"
-                                :align         "right"
-                                :verticalAlign "top"
-                                :x             -40
-                                :y             100
-                                :floating      true
-                                :borderWidth   1
-                                :shadow        true}
-                  :credits     {:enabled false}
-                  :series      [{:name "Weight"
-                                 :data []}]}})
+   :weights        []
+   :chart-config   {:chart       {:type :spline}
+                    :title       {:text "Snow depth at Vikjafjellet Norway"}
+                    :subtitle    {:text "Irregular time data in Highcharts JS"}
+                    :xAxis       {:type                 :datetime
+                                  :dateTimeLabelFormats {:month "%e. %b"
+                                                         :year  "%b"}
+                                  :title                {:text "Date"}}
+                    :yAxis       {:title {:text "Snow depth (m)"} :min 0}
+                    :tooltip     {:headerFormat "<b>{series.name}</b><br>"
+                                  :pointFormat  "{point.x:%e. %b}: {point.y:.2f} m"}
+                    :plotOptions {:spline {:marker {:enabled true}}}
+                    :series      [{}]}})

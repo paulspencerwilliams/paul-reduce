@@ -10,10 +10,16 @@
 (re-frame/register-handler
   :add-button-clicked
   (fn [_]
-    (let [weights (conj (:weights _) (+ 60 (rand-int 5)))]
-      {:weights      weights
-       :chart-config (assoc (:chart-config _) :series [{:name "Weight"
-                                                        :data weights}])})))
+    (let [updated-weights
+          (conj (:weights _)
+                [(let [[y m d] (.split (:entered-date _) #"-")]
+                   (Date.UTC (int y) (- (int m) 1) (int d)))
+                 (int (:entered-weight _))])]
+      {:weights      updated-weights
+       :chart-config (assoc
+                       (:chart-config _)
+                       :series [{:name "Weight"
+                                 :data updated-weights}])})))
 
 (re-frame/register-handler
   :entered-date-changed
