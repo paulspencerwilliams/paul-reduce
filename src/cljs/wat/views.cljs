@@ -48,10 +48,5 @@
                          :component-did-update graph-did-mount
                          }))
 
-(defn debug []
-  (let [chart-config (re-frame/subscribe [:chart-config])]
-    (fn []
-      [:div (str @chart-config)])))
-
 (defn main-panel []
-  [:div.debug [debug] [form][graph]])
+  [:div.debug [form][graph]])
