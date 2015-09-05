@@ -3,10 +3,20 @@
             [reagent.core :as reagent]))
 
 (defn date-input []
-  [:input {:type "text"}])
+  (let [entered-date (re-frame/subscribe [:entered-date])]
+    (fn []
+      [:input {:type      "text"
+               :value     @entered-date
+               :on-change #(re-frame/dispatch
+                            [:entered-date-changed (-> % .-target .-value)])}])))
 
 (defn weight-input []
-  [:input {:type "text"}])
+  (let [entered-weight (re-frame/subscribe [:entered-weight])]
+    (fn []
+      [:input {:type      "text"
+               :value     @entered-weight
+               :on-change #(re-frame/dispatch
+                            [:entered-weight-changed (-> % .-target .-value)])}])))
 
 (defn save-button []
   [:input {:type     "button"
@@ -39,4 +49,4 @@
                          }))
 
 (defn main-panel []
-  [:div [form] [graph]])
+  [:div [form][graph]])

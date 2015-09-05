@@ -11,3 +11,14 @@
   :name
   (fn [db]
     (reaction (:name @db))))
+
+(re-frame/register-sub
+  :entered-date
+  (fn [db]
+    (reaction (:entered-date @db))))
+
+(re-frame/register-sub
+  :entered-weight
+  (fn [db]
+    (reaction (:entered-weight @db))))
+

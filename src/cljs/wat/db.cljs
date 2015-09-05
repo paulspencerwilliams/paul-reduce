@@ -1,7 +1,9 @@
 (ns wat.db)
 
 (def default-db
-  {:weights      []
+  {:entered-date ""
+   :entered-weight ""
+   :weights      []
    :chart-config {:chart       {:type "line"}
                   :title       {:text "Pauls reducing reduce"}
                   :xAxis       {:type "datetime"
