@@ -21,4 +21,3 @@
   :entered-weight
   (fn [db]
     (reaction (:entered-weight @db))))
-

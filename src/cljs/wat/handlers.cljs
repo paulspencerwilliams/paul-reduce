@@ -1,5 +1,6 @@
 (ns wat.handlers
   (:require [re-frame.core :as re-frame]
+            [ajax.core :refer [GET POST]]
             [wat.db :as db]))
 
 (re-frame/register-handler
@@ -7,19 +8,28 @@
   (fn [_ _]
     db/default-db))
 
+(defn to-date [s]
+  (let [[y m d] (.split s #"-")]
+    (Date.UTC (int y) (- (int m) 1) (int d)))
+  )
+
 (re-frame/register-handler
   :add-button-clicked
   (fn [_]
     (let [updated-weights
           (conj (:weights _)
-                [(let [[y m d] (.split (:entered-date _) #"-")]
-                   (Date.UTC (int y) (- (int m) 1) (int d)))
+                [(to-date (:entered-date _) )
                  (int (:entered-weight _))])]
+      (ajax.core/POST
+        "/weights"
+        {:handler       #(re-frame/dispatch [:server-add-success %1])   ;; further dispatch !!
+         :error-handler #(re-frame/dispatch [:bad-response %1])})
       {:weights      updated-weights
        :chart-config (assoc
                        (:chart-config _)
                        :series [{:name "Weight"
-                                 :data updated-weights}])})))
+                                 :data updated-weights}])
+       ::server-add-requested true})))
 
 (re-frame/register-handler
   :entered-date-changed
@@ -30,3 +40,21 @@
   :entered-weight-changed
   (fn [app-state [_ entered-weight]]
     (assoc app-state :entered-weight entered-weight)))
+
+(re-frame/register-handler
+  :bad-response
+  (fn [app-state [_]]
+    (assoc app-state :bad-response true)))
+
+(re-frame/register-handler
+  :server-add-success
+  (fn [app-state [_ response]]
+    (let [updated-weights (map (fn [m] [(to-date (m "date")) (int (m "weight"))]) (js->clj response))]
+      {:weights      updated-weights
+       :chart-config (assoc
+                       (:chart-config app-state)
+                       :series [{:name "Weight"
+                                 :data updated-weights}])
+       ::server-add-requested false}
+      )
+    ))

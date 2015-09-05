@@ -15,4 +15,7 @@
                     :tooltip     {:headerFormat "<b>{series.name}</b><br>"
                                   :pointFormat  "{point.x:%e. %b}: {point.y:.2f} m"}
                     :plotOptions {:spline {:marker {:enabled true}}}
-                    :series      [{}]}})
+                    :series      [{}]}
+   :server-add-requested false
+   :server-add-success false
+   :bad-response false})

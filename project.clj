@@ -18,10 +18,14 @@
                  [environ "1.0.0"]
                  [org.clojure/clojurescript "1.7.107" :scope "provided"]
                  [secretary "1.2.3"]
-                 [re-frame "0.4.1"]]
+                 [re-frame "0.4.1"]
+                 [cljs-ajax "0.3.14"]
+                 [clj-time "0.11.0"]
+                 [ring/ring-json "0.4.0"]]
 
   :plugins [[lein-environ "1.0.0"]
-            [lein-asset-minifier "0.2.2"]]
+            [lein-asset-minifier "0.2.2"]
+            [lein-ring "0.9.6"]]
 
   :ring {:handler wat.handler/app
          :uberwar-name "wat.war"}
