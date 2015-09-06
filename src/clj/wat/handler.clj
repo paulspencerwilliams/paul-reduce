@@ -3,7 +3,7 @@
             [compojure.core :refer [GET POST defroutes]]
             [compojure.route :refer [not-found resources]]
             [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
-            [ring.middleware.json :refer [wrap-json-body]]
+            [ring.middleware.transit :refer [wrap-transit-body]]
             [hiccup.core :refer [html]]
             [hiccup.page :refer [include-js include-css]]
             [prone.middleware :refer [wrap-exceptions]]
@@ -36,10 +36,14 @@
   (prn req)
   (let [date (get (:body req) :date )
         weight (get (:body req) :weight)]
+    (prn date)
+    (prn weight)
     (db/register date weight))
-  {:status 200
-   :headers {"Content-Type" "application/json"}
-   :body (json/write-str (db/get-all))})
+  (let [result (json/write-str (db/get-all))]
+    (prn (str result))
+    {:status 200
+     :headers {"Content-Type" "application/json"}
+     :body result}))
 
 (defroutes routes
   (GET "/" [] home-page)
@@ -49,5 +53,13 @@
   (not-found "Not Found"))
 
 (def app
-  (let [handler (wrap-json-body (wrap-defaults #'routes (assoc-in site-defaults [:security :anti-forgery] false)) {:keywords? true :bigdecimals? true})]
+  (let [handler
+        (wrap-transit-body
+          (wrap-defaults
+            #'routes
+            (assoc-in
+              site-defaults
+              [:security :anti-forgery]
+              false))
+          {:keywords? true :opts {}})]
     (if (env :dev) (-> handler wrap-exceptions wrap-reload) handler)))

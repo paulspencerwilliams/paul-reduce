@@ -19,7 +19,7 @@
                      :db.install/_attribute :db.part/db}
                     {:db/id                 (d/tempid :db.part/db)
                      :db/ident              :health/weight
-                     :db/valueType          :db.type/float
+                     :db/valueType          :db.type/double
                      :db/cardinality        :db.cardinality/one
                      :db/doc                "Weight"
                      :db.install/_attribute :db.part/db}])
@@ -39,6 +39,7 @@
 (defn register
   "Note: this  treats weight as safe which it probably isn't..."
   [date weight]
+  (prn
   (d/transact conn [{:db/id         (d/tempid :db.part/user)
                      :health/date   (c/to-date (f/parse (f/formatters :date) date))
-                     :health/weight (float (read-string weight))}]))
+                     :health/weight  (Double/parseDouble weight) }])))

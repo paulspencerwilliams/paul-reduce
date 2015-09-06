@@ -21,7 +21,7 @@
                  [re-frame "0.4.1"]
                  [cljs-ajax "0.3.14"]
                  [clj-time "0.11.0"]
-                 [ring/ring-json "0.4.0"]
+                 [ring-transit "0.1.3"]
                  [com.datomic/datomic-free "0.9.5206" :exclusions [joda-time]]]
 
   :plugins [[lein-environ "1.0.0"]
