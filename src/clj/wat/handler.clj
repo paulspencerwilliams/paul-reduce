@@ -3,6 +3,7 @@
             [compojure.core :refer [GET POST defroutes]]
             [compojure.route :refer [not-found resources]]
             [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
+            [ring.middleware.json :refer [wrap-json-body]]
             [hiccup.core :refer [html]]
             [hiccup.page :refer [include-js include-css]]
             [prone.middleware :refer [wrap-exceptions]]
@@ -26,20 +27,27 @@
      (include-js "js/app.js")
      [:script "wat.core.init();"]]]))
 
-(defn weights []
+(defn get-weights []
   {:status 200
    :headers {"Content-Type" "application/json"}
-   :body (json/write-str
-           (db/get-all)
-           )})
+   :body (json/write-str (db/get-all))})
+
+(defn record-weight [req]
+  (prn req)
+  (let [date (get (:body req) :date )
+        weight (get (:body req) :weight)]
+    (db/register date weight))
+  {:status 200
+   :headers {"Content-Type" "application/json"}
+   :body (json/write-str (db/get-all))})
 
 (defroutes routes
   (GET "/" [] home-page)
-  (POST "/weights" [] (weights))
-  (GET "/weights" [] (weights))
+  (POST "/weights" req (record-weight req))
+  (GET "/weights" [] (get-weights))
   (resources "/")
   (not-found "Not Found"))
 
 (def app
-  (let [handler (wrap-defaults #'routes (assoc-in site-defaults [:security :anti-forgery] false))]
+  (let [handler (wrap-json-body (wrap-defaults #'routes (assoc-in site-defaults [:security :anti-forgery] false)) {:keywords? true :bigdecimals? true})]
     (if (env :dev) (-> handler wrap-exceptions wrap-reload) handler)))
