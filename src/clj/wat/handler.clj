@@ -1,5 +1,6 @@
 (ns wat.handler
-  (:require [compojure.core :refer [GET POST defroutes]]
+  (:require [wat.datomic :as db]
+            [compojure.core :refer [GET POST defroutes]]
             [compojure.route :refer [not-found resources]]
             [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
             [hiccup.core :refer [html]]
@@ -18,12 +19,7 @@
      [:meta {:name "viewport"
              :content "width=device-width, initial-scale=1"}]
      (include-css (if (env :dev) "css/site.css" "css/site.min.css"))]
-    [:body
-     [:div#app
-      [:h3 "ClojureScript has not been compiled!"]
-      [:p "please run "
-       [:b "lein figwheel"]
-       " in order to start the compiler"]]
+    [:body [:div#app [:h3 "Loading..."]]
      (include-js "https://code.jquery.com/jquery-2.1.1.min.js")
      (include-js "http://code.highcharts.com/highcharts.js")
      (include-js "http://code.highcharts.com/modules/exporting.js")
@@ -33,8 +29,9 @@
 (defn weights []
   {:status 200
    :headers {"Content-Type" "application/json"}
-   :body (json/write-str [{:date "2015-09-05" :weight 100}
-                          {:date "2015-09-06" :weight 100}])})
+   :body (json/write-str
+           (db/get-all)
+           )})
 
 (defroutes routes
   (GET "/" [] home-page)
