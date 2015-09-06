@@ -26,13 +26,6 @@
 
 (d/transact conn health-schema)
 
-(d/transact conn [{:db/id              (d/tempid :db.part/user)
-                   :health/date           (read-string "#inst \"2012-09-11T11:51:26.00Z\"")
-                   :health/weight          67.4}
-                  {:db/id              (d/tempid :db.part/user)
-                   :health/date           (read-string "#inst \"2012-09-12T11:51:26.00Z\"")
-                   :health/weight          64.3}])
-
 (defn get-all []
 (map
   (fn [h]
