@@ -14,6 +14,7 @@
                     :tooltip     {:headerFormat "<b>{series.name}</b><br>"
                                   :pointFormat  "{point.x:%e. %b}: {point.y:.2f} m"}
                     :plotOptions {:spline {:marker {:enabled true}}}
-                    :series      [{}]}
+                    :series      [{:name "Weight"
+                                   :data []}]}
    :server-add-status :not-requested
    :bad-response false})
