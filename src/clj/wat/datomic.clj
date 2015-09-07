@@ -37,7 +37,6 @@
                 (d/db conn)))))
 
 (defn register
-  "Note: this  treats weight as safe which it probably isn't..."
   [date weight]
   (prn
   (d/transact conn [{:db/id         (d/tempid :db.part/user)
