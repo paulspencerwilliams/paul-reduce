@@ -9,7 +9,6 @@
     db/default-db))
 
 (defn to-date [s]
-  (.log js/console s)
   (let [[y m d] (.split s #"-")]
     (Date.UTC (int y) (- (int m) 1) (int d)))
   )
@@ -19,8 +18,6 @@
   (fn [_]
     (let [new-weight [(to-date (:entered-date _) ) (float (:entered-weight _))]
           updated-weights (conj (:weights _) new-weight)]
-      (.log js/console (str {:date (:entered-date _)
-                             :weight 3.4}) )
       (ajax.core/POST "/weights"
             {:params {:date (:entered-date _)
                       :weight (float (:entered-weight _))}
@@ -53,7 +50,6 @@
 (re-frame/register-handler
   :server-add-success
   (fn [app-state [_ response]]
-    (.log js/console (str "response:" response) )
     (let [updated-weights (map (fn [m] [(to-date (m :date)) (int (m :weight))]) (js->clj response))]
       {:weights      updated-weights
        :chart-config (assoc
