@@ -39,11 +39,7 @@
     (prn date)
     (prn weight)
     (db/register date weight))
-  (let [result (json/write-str (db/get-all))]
-    (prn (str result))
-    {:status 200
-     :headers {"Content-Type" "application/json"}
-     :body result}))
+    (redirect "/weights"))
 
 (defroutes routes
   (GET "/" [] home-page)
