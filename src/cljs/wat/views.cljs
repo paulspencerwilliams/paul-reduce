@@ -2,6 +2,16 @@
   (:require [re-frame.core :as re-frame]
             [reagent.core :as reagent]))
 
+(defn notifications []
+  (let [display (re-frame/subscribe [:server-add-status])]
+    (fn []
+      [:div
+       (case @display
+         :not-requested nil
+         :requested [:div.notification "Sending..."]
+         :success [:div.notification "Weight saved"]
+         :failed [:div.error "Failed"])])))
+
 (defn date-input []
   (let [entered-date (re-frame/subscribe [:entered-date])]
     (fn []
@@ -49,4 +59,4 @@
                          }))
 
 (defn main-panel []
-  [:div.debug [form][graph]])
+  [:div.debug [notifications][form][graph]])

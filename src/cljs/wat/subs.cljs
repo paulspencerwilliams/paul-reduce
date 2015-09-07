@@ -21,3 +21,8 @@
   :entered-weight
   (fn [db]
     (reaction (:entered-weight @db))))
+
+(re-frame/register-sub
+  :server-add-status
+  (fn [db]
+    (reaction (:server-add-status @db))))

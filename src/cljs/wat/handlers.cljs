@@ -33,7 +33,7 @@
                        (:chart-config _)
                        :series [{:name "Weight"
                                  :data updated-weights}])
-       ::server-add-requested true})))
+       :server-add-status :requested})))
 
 (re-frame/register-handler
   :entered-date-changed
@@ -48,7 +48,7 @@
 (re-frame/register-handler
   :bad-response
   (fn [app-state [_]]
-    (assoc app-state :bad-response true)))
+    (assoc app-state :server-add-status :failed)))
 
 (re-frame/register-handler
   :server-add-success
@@ -60,6 +60,6 @@
                        (:chart-config app-state)
                        :series [{:name "Weight"
                                  :data updated-weights}])
-       ::server-add-requested false}
+       :server-add-status :success}
       )
     ))

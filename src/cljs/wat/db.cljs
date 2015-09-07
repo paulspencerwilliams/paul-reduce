@@ -16,6 +16,5 @@
                                   :pointFormat  "{point.x:%e. %b}: {point.y:.2f} m"}
                     :plotOptions {:spline {:marker {:enabled true}}}
                     :series      [{}]}
-   :server-add-requested false
-   :server-add-success false
+   :server-add-status :not-requested
    :bad-response false})
