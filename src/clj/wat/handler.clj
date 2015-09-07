@@ -28,6 +28,7 @@
      [:script "wat.core.init();"]]]))
 
 (defn get-weights []
+  (Thread/sleep 3000)
   {:status 200
    :headers {"Content-Type" "application/json"}
    :body (json/write-str (db/get-all))})
