@@ -3,14 +3,10 @@
             [ajax.core :refer [GET POST]]
             [wat.db :as db]))
 
-(defn to-date [s]
-  (let [[y m d] (.split s #"-")]
-    (Date.UTC (int y) (- (int m) 1) (int d))))
-
 (re-frame/register-handler
   :add-button-clicked
   (fn [_]
-    (let [new-weight [(to-date (:entered-date _) ) (float (:entered-weight _))]
+    (let [new-weight [(Date.parse (:entered-date _) ) (float (:entered-weight _))]
           updated-weights (conj (:weights _) new-weight)]
       (ajax.core/POST "/weights"
             {:params {:date (:entered-date _)
@@ -44,7 +40,7 @@
 (re-frame/register-handler
   :server-add-success
   (fn [app-state [_ response]]
-    (let [updated-weights (map (fn [m] [(to-date (m :date)) (int (m :weight))]) (js->clj response))]
+    (let [updated-weights (map (fn [m] [(Date.parse (m :date)) (int (m :weight))]) (js->clj response))]
       {:weights      updated-weights
        :chart-config (assoc
                        (:chart-config app-state)
