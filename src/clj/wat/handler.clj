@@ -34,13 +34,9 @@
    :body (json/write-str (db/get-all))})
 
 (defn record-weight [req]
-  (prn req)
-  (let [date (get (:body req) :date )
-        weight (get (:body req) :weight)]
-    (prn date)
-    (prn weight)
+  (let [{date :date weight :weight} (:body req)]
     (db/register date weight))
-    (redirect "/weights"))
+  (redirect "/weights"))
 
 (defroutes routes
   (GET "/" [] home-page)
