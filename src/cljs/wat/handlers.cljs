@@ -3,15 +3,9 @@
             [ajax.core :refer [GET POST]]
             [wat.db :as db]))
 
-(re-frame/register-handler
-  :initialize-db
-  (fn [_ _]
-    db/default-db))
-
 (defn to-date [s]
   (let [[y m d] (.split s #"-")]
-    (Date.UTC (int y) (- (int m) 1) (int d)))
-  )
+    (Date.UTC (int y) (- (int m) 1) (int d))))
 
 (re-frame/register-handler
   :add-button-clicked
@@ -56,6 +50,9 @@
                        (:chart-config app-state)
                        :series [{:name "Weight"
                                  :data updated-weights}])
-       :server-add-status :success}
-      )
-    ))
+       :server-add-status :success})))
+
+(re-frame/register-handler
+  :initialize-db
+  (fn [_ _]
+    db/default-db))
