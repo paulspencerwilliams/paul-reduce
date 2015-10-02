@@ -6,7 +6,7 @@
 (re-frame/register-handler
   :add-button-clicked
   (fn [_]
-    (let [new-weight [(Date.parse (:entered-date _) ) (float (:entered-weight _))]
+    (let [new-weight [(Date.parse (:entered-date _) ) (js/parseInt (:entered-weight _))]
           updated-weights (conj (:weights _) new-weight)]
       (ajax.core/POST "/weights"
             {:params {:date (:entered-date _)
