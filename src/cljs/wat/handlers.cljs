@@ -5,22 +5,25 @@
 
 (re-frame/register-handler
   :add-button-clicked
-  (fn [_]
-    (let [new-weight [(Date.parse (:entered-date _) ) (js/parseInt (:entered-weight _))]
-          updated-weights (conj (:weights _) new-weight)]
+  (fn [app-state]
+    (let [new-weight [(Date.parse (:entered-date app-state))
+                      (js/parseInt (:entered-weight app-state))]
+          updated-weights (conj (:weights app-state) new-weight)]
       (ajax.core/POST "/weights"
-            {:params {:date (:entered-date _)
-                      :weight (float (:entered-weight _))}
+            {:params {:date (:entered-date app-state)
+                      :weight (float (:entered-weight app-state))}
              :handler       #(re-frame/dispatch [:server-add-success %1])
               :error-handler #(re-frame/dispatch [:bad-response %1])
              :response-format :json
              :keywords? true})
-      {:weights      updated-weights
-       :chart-config (assoc
-                       (:chart-config _)
-                       :series [{:name "Weight"
-                                 :data updated-weights}])
-       :server-add-status :requested})))
+      (assoc
+        app-state
+        :weights      updated-weights
+        :chart-config (assoc
+                        (:chart-config app-state)
+                        :series [{:name "Weight"
+                                  :data updated-weights}])
+        :server-add-status :requested))))
 
 (re-frame/register-handler
   :entered-date-changed
@@ -40,13 +43,16 @@
 (re-frame/register-handler
   :server-add-success
   (fn [app-state [_ response]]
-    (let [updated-weights (map (fn [m] [(Date.parse (m :date)) (int (m :weight))]) (js->clj response))]
-      {:weights      updated-weights
-       :chart-config (assoc
-                       (:chart-config app-state)
-                       :series [{:name "Weight"
-                                 :data updated-weights}])
-       :server-add-status :success})))
+    (let [updated-weights (map (fn [m] [(Date.parse (m :date)) (int (m :weight))])
+                               (js->clj response))]
+      (assoc
+        app-state
+        :weights      updated-weights
+        :chart-config (assoc
+                        (:chart-config app-state)
+                        :series [{:name "Weight"
+                                  :data updated-weights}])
+        :server-add-status :success))))
 
 (re-frame/register-handler
   :initialize-db
