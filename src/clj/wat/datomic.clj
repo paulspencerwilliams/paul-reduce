@@ -25,12 +25,14 @@
 (d/transact conn health-schema)
 
 (defn get-all []
-  (map
-    (fn [h]
-      {:date (f/unparse (f/formatters :date) (c/from-date (:health/date h)))
-       :weight (:health/weight h)})
-    (flatten
-      (d/q '[:find (pull ?e [*]) :where [?e :health/date]] (d/db conn)))))
+  (sort-by first
+           (map
+             (fn [h]
+               {:date (f/unparse (f/formatters :date) (c/from-date (:health/date h)))
+                :weight (:health/weight h)})
+             (flatten
+               (d/q '[:find (pull ?e [*]) :where [?e :health/date]] (d/db conn)))))
+  )
 
 (defn register [date weight]
   (d/transact conn [{:db/id         (d/tempid :db.part/user)
