@@ -8,7 +8,7 @@
   (fn [app-state]
     (let [new-weight [(Date.parse (:entered-date app-state))
                       (js/parseInt (:entered-weight app-state))]
-          updated-weights (conj (:weights app-state) new-weight)]
+          updated-weights (sort-by first (conj (:weights app-state) new-weight))]
       (ajax.core/POST "/weights"
             {:params {:date (:entered-date app-state)
                       :weight (float (:entered-weight app-state))}
