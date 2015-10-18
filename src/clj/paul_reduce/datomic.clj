@@ -20,6 +20,12 @@
                      :db/valueType          :db.type/double
                      :db/cardinality        :db.cardinality/one
                      :db/doc                "Weight"
+                     :db.install/_attribute :db.part/db}
+                    {:db/id                 (d/tempid :db.part/db)
+                     :db/ident              :health/bmi
+                     :db/valueType          :db.type/double
+                     :db/cardinality        :db.cardinality/one
+                     :db/doc                "BMI"
                      :db.install/_attribute :db.part/db}])
 
 (d/transact conn health-schema)
@@ -28,13 +34,15 @@
   (sort-by first
            (map
              (fn [h]
-               {:date (f/unparse (f/formatters :date) (c/from-date (:health/date h)))
-                :weight (:health/weight h)})
+               {:date   (f/unparse (f/formatters :date) (c/from-date (:health/date h)))
+                :weight (:health/weight h)
+                :bmi    (:health/bmi h)})
              (flatten
                (d/q '[:find (pull ?e [*]) :where [?e :health/date]] (d/db conn)))))
   )
 
-(defn register [date weight]
+(defn register [date weight bmi]
   (d/transact conn [{:db/id         (d/tempid :db.part/user)
-                     :health/date   (c/to-date (f/parse (f/formatters :date) date))
-                     :health/weight  (Double/parseDouble weight) }]))
+                     :health/date   date
+                     :health/weight weight
+                     :health/bmi    bmi}]))

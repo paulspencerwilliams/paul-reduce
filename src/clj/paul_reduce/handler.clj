@@ -10,40 +10,45 @@
             [ring.middleware.reload :refer [wrap-reload]]
             [ring.util.response :refer [redirect]]
             [environ.core :refer [env]]
-            [clojure.data.json :as json :refer [write-str]]))
+            [clojure.data.json :as json :refer [write-str]]
+            [clj-time.coerce :as c]
+            [clj-time.format :as f]))
 
 (def home-page
   (html
-   [:html
-    [:head
-     [:meta {:charset "utf-8"}]
-     [:meta {:name "viewport"
-             :content "width=device-width, initial-scale=1"}]
-     (include-css (if (env :dev) "css/site.css" "css/site.min.css"))]
-    [:body [:div#app [:h3 "Loading..."]]
-     (include-js "https://code.jquery.com/jquery-2.1.1.min.js")
-     (include-js "http://code.highcharts.com/highcharts.js")
-     (include-js "http://code.highcharts.com/modules/exporting.js")
-     (include-js "js/app.js")
-     [:script "paul_reduce.core.init();"]]]))
+    [:html
+     [:head
+      [:meta {:charset "utf-8"}]
+      [:meta {:name    "viewport"
+              :content "width=device-width, initial-scale=1"}]
+      (include-css (if (env :dev) "css/site.css" "css/site.min.css"))]
+     [:body [:div#app [:h3 "Loading..."]]
+      (include-js "https://code.jquery.com/jquery-2.1.1.min.js")
+      (include-js "http://code.highcharts.com/highcharts.js")
+      (include-js "http://code.highcharts.com/modules/exporting.js")
+      (include-js "js/app.js")
+      [:script "paul_reduce.core.init();"]]]))
 
 (defn get-weights []
   (Thread/sleep 3000)
-  {:status 200
+  {:status  200
    :headers {"Content-Type" "application/json"}
-   :body (json/write-str (db/get-all))})
+   :body    (json/write-str (db/get-all))})
 
 (defn record-weight [req]
-  (let [{date :date weight :weight} (:body req)]
-    (db/register date weight))
+  (let [{date-string :date weight-string :weight} (:body req)
+        date (c/to-date (f/parse (f/formatters :date) date-string))
+        weight (Double/parseDouble weight-string)
+        bmi (/ (/ weight 1.8288) 1.8288)]
+    (db/register date weight bmi))
   (redirect "/weights"))
 
 (defroutes routes
-  (GET "/" [] home-page)
-  (POST "/weights" req (record-weight req))
-  (GET "/weights" [] (get-weights))
-  (resources "/")
-  (not-found "Not Found"))
+           (GET "/" [] home-page)
+           (POST "/weights" req (record-weight req))
+           (GET "/weights" [] (get-weights))
+           (resources "/")
+           (not-found "Not Found"))
 
 (def app
   (let [handler

@@ -8,6 +8,11 @@
     (reaction (:weights @db))))
 
 (re-frame/register-sub
+  :bmis
+  (fn [db]
+    (reaction (:bmis @db))))
+
+(re-frame/register-sub
   :name
   (fn [db]
     (reaction (:name @db))))

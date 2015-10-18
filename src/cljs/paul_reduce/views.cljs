@@ -41,14 +41,17 @@
   )
 
 (defn graph-render []
-  (let [weights (re-frame/subscribe [:weights])]
+  (let [weights (re-frame/subscribe [:weights])
+        bmis (re-frame/subscribe [:bmis])]
     (fn []
-      (let [unused-ref @weights]
+      (let [unused-weight-ref @weights
+            unused-bmi-ref @bmis]
         [:div.graph {:style {:min-width "310px" :max-width "800px"
                              :height    "400px" :margin "0 auto"}}]))))
 
 (defn graph-did-mount [this]
-  (let [weights (re-frame/subscribe [:weights])]
+  (let [weights (re-frame/subscribe [:weights])
+        bmis (re-frame/subscribe [:bmis])]
     (.highcharts (js/$ (reagent/dom-node this))
                  (clj->js {:chart       {:type :spline}
                            :title       {:text "(reduce (reduce :pauls-weight))"}
@@ -57,13 +60,27 @@
                                                                 :year  "%b"}
 
                                          :title                {:text "Date"}}
-                           :yAxis       {:title {:text "Weight (Kg)"} :min 70 :max 100}
+                           :yAxis       [{:title  {:text  "Weight (Kg)"
+                                                   :style {:color "#4572A7"}}
+                                          :labels {:style {:color "#4572A7"}}
+                                          :min 70
+                                          :max 100}
+                                         {:title {:text  "BMI"
+                                                  :style {:color "#000000"}}
+                                          :labels {:style {:color "#000000"}}
+                                          :min 20
+                                          :max 30
+                                          :opposite true}]
                            :tooltip     {:headerFormat "<b>{series.name}</b><br>"
                                          :pointFormat  "{point.x:%e. %b}: {point.y:.2f} m"}
                            :plotOptions {:spline {:marker {:enabled true}}
-                                         :series {:animation  false}}
-                           :series      [{:name "Weight"
-                                          :data @weights}]}))))
+                                         :series {:animation false}}
+                           :series      [{:name  "Weight"
+                                          :data  @weights
+                                          :yAxis 0}
+                                         {:name  "BMI"
+                                          :data  @bmis
+                                          :yAxis 1}]}))))
 
 (defn graph []
   (reagent/create-class {:reagent-render       graph-render
