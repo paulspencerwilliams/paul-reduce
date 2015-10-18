@@ -54,7 +54,7 @@
         bmis (re-frame/subscribe [:bmis])]
     (.highcharts (js/$ (reagent/dom-node this))
                  (clj->js {:chart       {:type :spline}
-                           :title       {:text "(reduce (reduce :pauls-weight))"}
+                           :title       {:text ""}
                            :xAxis       {:type                 :datetime
                                          :dateTimeLabelFormats {:month "%e. %b"
                                                                 :year  "%b"}
@@ -89,4 +89,4 @@
                          }))
 
 (defn main-panel []
-  [:div.debug [notifications][form][graph]])
+  [:div [notifications][form][graph]])
