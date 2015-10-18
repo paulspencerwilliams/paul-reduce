@@ -41,16 +41,28 @@
   )
 
 (defn graph-render []
-  (let [chart-config (re-frame/subscribe [:chart-config])]
+  (let [weights (re-frame/subscribe [:weights])]
     (fn []
-      (let [unused-ref @chart-config]
+      (let [unused-ref @weights]
         [:div.graph {:style {:min-width "310px" :max-width "800px"
                              :height    "400px" :margin "0 auto"}}]))))
 
 (defn graph-did-mount [this]
-  (let [chart-config (re-frame/subscribe [:chart-config])]
+  (let [weights (re-frame/subscribe [:weights])]
     (.highcharts (js/$ (reagent/dom-node this))
-                 (clj->js @chart-config))))
+                 (clj->js {:chart       {:type :spline}
+                           :title       {:text "(reduce (reduce :pauls-weight))"}
+                           :xAxis       {:type                 :datetime
+                                         :dateTimeLabelFormats {:month "%e. %b"
+                                                                :year  "%b"}
+
+                                         :title                {:text "Date"}}
+                           :yAxis       {:title {:text "Weight (Kg)"} :min 0 :max 100}
+                           :tooltip     {:headerFormat "<b>{series.name}</b><br>"
+                                         :pointFormat  "{point.x:%e. %b}: {point.y:.2f} m"}
+                           :plotOptions {:spline {:marker {:enabled true}}}
+                           :series      [{:name "Weight"
+                                          :data @weights}]}))))
 
 (defn graph []
   (reagent/create-class {:reagent-render       graph-render

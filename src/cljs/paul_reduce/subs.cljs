@@ -3,9 +3,9 @@
   (:require [re-frame.core :as re-frame]))
 
 (re-frame/register-sub
-  :chart-config
+  :weights
   (fn [db]
-    (reaction (:chart-config @db))))
+    (reaction (:weights @db))))
 
 (re-frame/register-sub
   :name

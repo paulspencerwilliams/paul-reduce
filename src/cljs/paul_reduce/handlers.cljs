@@ -19,10 +19,6 @@
       (assoc
         app-state
         :weights      updated-weights
-        :chart-config (assoc
-                        (:chart-config app-state)
-                        :series [{:name "Weight"
-                                  :data updated-weights}])
         :server-add-status :requested))))
 
 (re-frame/register-handler
@@ -48,10 +44,6 @@
       (assoc
         app-state
         :weights      updated-weights
-        :chart-config (assoc
-                        (:chart-config app-state)
-                        :series [{:name "Weight"
-                                  :data updated-weights}])
         :server-add-status :success))))
 
 (re-frame/register-handler
