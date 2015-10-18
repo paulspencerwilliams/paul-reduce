@@ -1,7 +1,7 @@
-(ns wat.handlers
+(ns paul-reduce.handlers
   (:require [re-frame.core :as re-frame]
             [ajax.core :refer [GET POST]]
-            [wat.db :as db]))
+            [paul-reduce.db :as db]))
 
 (re-frame/register-handler
   :add-button-clicked

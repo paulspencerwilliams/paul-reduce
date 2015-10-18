@@ -1,5 +1,5 @@
-(ns ^:figwheel-no-load wat.dev
-  (:require [wat.core :as core]
+(ns ^:figwheel-no-load paul-reduce.dev
+  (:require [paul-reduce.core :as core]
             [figwheel.client :as figwheel :include-macros true]))
 
 (enable-console-print!)

@@ -1,4 +1,4 @@
-(ns wat.datomic
+(ns paul-reduce.datomic
   (require [datomic.api :as d]
            [clj-time.coerce :as c]
            [clj-time.format :as f]))

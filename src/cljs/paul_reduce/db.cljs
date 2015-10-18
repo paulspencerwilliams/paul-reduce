@@ -1,4 +1,4 @@
-(ns wat.db)
+(ns paul-reduce.db)
 
 (def default-db
   {:entered-date   ""

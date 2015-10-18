@@ -1,5 +1,5 @@
-(ns wat.server
-  (:require [wat.handler :refer [app]]
+(ns paul-reduce.server
+  (:require [paul-reduce.handler :refer [app]]
             [environ.core :refer [env]]
             [ring.adapter.jetty :refer [run-jetty]])
   (:gen-class))

@@ -1,4 +1,4 @@
-(ns wat.views
+(ns paul-reduce.views
   (:require [re-frame.core :as re-frame]
             [reagent.core :as reagent]))
 

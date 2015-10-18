@@ -1,1 +1,1 @@
-web: java $JVM_OPTS -cp target/wat.jar clojure.main -m wat.server
+web: java $JVM_OPTS -cp target/paul-reduce.jar clojure.main -m paul-reduce.server

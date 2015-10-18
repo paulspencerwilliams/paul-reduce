@@ -28,14 +28,14 @@
             [lein-asset-minifier "0.2.2"]
             [lein-ring "0.9.6"]]
 
-  :ring {:handler wat.handler/app
-         :uberwar-name "wat.war"}
+  :ring {:handler paul-reduce.handler/app
+         :uberwar-name "paul-reduce.war"}
 
   :min-lein-version "2.5.0"
 
-  :uberjar-name "wat.jar"
+  :uberjar-name "paul-reduce.jar"
 
-  :main wat.server
+  :main paul-reduce.server
 
   :clean-targets ^{:protect false} [:target-path
                                     [:cljsbuild :builds :app :compiler :output-dir]
@@ -54,7 +54,7 @@
                                         :optimizations :none
                                         :pretty-print  true}}}}
 
-  :profiles {:dev {:repl-options {:init-ns wat.repl}
+  :profiles {:dev {:repl-options {:init-ns paul-reduce.repl}
 
                    :dependencies [[ring/ring-mock "0.2.0"]
                                   [ring/ring-devel "1.4.0"]
@@ -73,12 +73,12 @@
                               :server-port 3449
                               :nrepl-port 7002
                               :css-dirs ["resources/public/css"]
-                              :ring-handler wat.handler/app}
+                              :ring-handler paul-reduce.handler/app}
 
                    :env {:dev true}
 
                    :cljsbuild {:builds {:app {:source-paths ["env/dev/cljs"]
-                                              :compiler {:main "wat.dev"
+                                              :compiler {:main "paul-reduce.dev"
                                                          :source-map true}}
 }
 }}

@@ -1,5 +1,5 @@
-(ns wat.handler
-  (:require [wat.datomic :as db]
+(ns paul-reduce.handler
+  (:require [paul-reduce.datomic :as db]
             [compojure.core :refer [GET POST defroutes]]
             [compojure.route :refer [not-found resources]]
             [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
@@ -25,7 +25,7 @@
      (include-js "http://code.highcharts.com/highcharts.js")
      (include-js "http://code.highcharts.com/modules/exporting.js")
      (include-js "js/app.js")
-     [:script "wat.core.init();"]]]))
+     [:script "paul_reduce.core.init();"]]]))
 
 (defn get-weights []
   (Thread/sleep 3000)

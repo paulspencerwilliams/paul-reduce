@@ -1,5 +1,5 @@
-(ns wat.repl
-  (:use wat.handler
+(ns paul-reduce.repl
+  (:use paul-reduce.handler
         ring.server.standalone
         [ring.middleware file-info file]))
 

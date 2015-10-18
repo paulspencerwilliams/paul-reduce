@@ -1,9 +1,9 @@
-(ns wat.core
+(ns paul-reduce.core
     (:require [reagent.core :as reagent]
               [re-frame.core :as re-frame]
-              [wat.handlers]
-              [wat.subs]
-              [wat.views :as views]))
+              [paul-reduce.handlers]
+              [paul-reduce.subs]
+              [paul-reduce.views :as views]))
 
 (defn mount-root []
   (reagent/render [views/main-panel]
