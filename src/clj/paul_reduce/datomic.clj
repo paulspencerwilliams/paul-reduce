@@ -3,9 +3,8 @@
            [clj-time.coerce :as c]
            [clj-time.format :as f]))
 
-(def uri "datomic:mem://health-tracker")
+(def uri "datomic:dev://localhost:4334/health-tracker")
 
-(d/create-database uri)
 (def conn (d/connect uri))
 
 (def health-schema [{:db/id                 (d/tempid :db.part/db)

@@ -22,7 +22,7 @@
                  [cljs-ajax "0.3.14"]
                  [clj-time "0.11.0"]
                  [ring-transit "0.1.3"]
-                 [com.datomic/datomic-free "0.9.5206" :exclusions [joda-time]]]
+                 [com.datomic/datomic-pro "0.9.5327" :exclusions [joda-time]]]
 
   :plugins [[lein-environ "1.0.0"]
             [lein-asset-minifier "0.2.2"]
