@@ -54,10 +54,11 @@ To understand how this application works, I would recommend
 understand how React.JS components are rendered using simple CLJS functions one 
 way bound to subscriptions, and raise reagent events.
 2. review 
-[src/cljs/paul_reduce/handlers.cljs](../master/src/cljs/paul_reduce/handlers
-.cljs) to 
-understand event handlers swap! the app-db atom implicitly
-3. review [src/cljs/paul_reduce/subs.cljs](../master/src/cljs/paul_reduce/subs.cljs) to
+[src/cljs/paul_reduce/handlers.cljs]
+(../master/src/cljs/paul_reduce/handlers.cljs) to understand event handlers 
+swap! the app-db atom implicitly
+3. review 
+[src/cljs/paul_reduce/subs.cljs](../master/src/cljs/paul_reduce/subs.cljs) to
  view subscriptions - view delegates of app-db allowing the view React.JS 
  components render when needed, supplied with data in the most helpful way. 
 4. To further understand this, when starting using figwheel, enter 
