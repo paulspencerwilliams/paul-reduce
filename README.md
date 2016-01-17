@@ -68,4 +68,22 @@ adding weights.
 
 ## Want to play with Datomic?
 
-// TODO
+Datomic is an innovative database that supports time as a first class citizen. 
+[Gigasquid](http://gigasquidsoftware.com) has put together, in my view, the best
+ introduction to Datomic in her excellent Conversations with Datomic series 
+(parts [1]
+(http://gigasquidsoftware.com/blog/2015/08/15/conversations-with-datomic), [2]
+(http://gigasquidsoftware.com/blog/2015/08/19/conversations-with-datomic-part-2)
+, and [3]
+(http://gigasquidsoftware.com/blog/2015/08/25/converstations-with-datomic-3)).
+  
+The master branch of paul-reduce uses the in-memory datomic-free which 
+deliberately trades elimination of separate installation / configuration of 
+Datomic, for the inability to remotely connect from a REPL and explore. This 
+is sufficient to quickly get to grips with this application. 
+
+However, if you really want to dive in a little deeper on how I used Datomic,
+ I recommend switching to the datomic-pro branch where I reconfigure the 
+ application to use a separately installed, local instance of Datomic. Please
+ refer to the Readme in that branch for installation guidance, and the 
+ cheat-sheet I used at the Birmingham FP meetup to time travel!
