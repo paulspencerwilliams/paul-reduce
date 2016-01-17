@@ -48,7 +48,8 @@ included, opinionated, and with an excellent
 documentation. I like the single tree / atom app-db approach and how it supports 
 events, and subscriptions expressively, and without noise.
 
-To understand how this application works, I would recommend 
+To understand how this application works, I would recommend
+ 
 1. starting in 
 [src/cljs/paul_reduce/views.cljs](../master/src/cljs/paul_reduce/views.cljs) to 
 understand how React.JS components are rendered using simple CLJS functions one 
