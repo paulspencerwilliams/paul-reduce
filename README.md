@@ -1,8 +1,9 @@
 # Being lightweight using ClojureScript
 
+A simple weight tracking application that I developed to learn [ClojureScript](https://github.com/clojure/clojurescript), [Datomic](http://www.datomic.com) , and the [re-frame](https://github.com/Day8/re-frame) 'framework'.
+
 ## TL;DR
 
-A simple weight tracking application that I developed to learn [ClojureScript](https://github.com/clojure/clojurescript), [Datomic](http://www.datomic.com) , and the [re-frame](https://github.com/Day8/re-frame) 'framework'.
 To clone, compile/run, and play with the app using an in-memory Datomic db, 
 then:
 ```
@@ -49,13 +50,13 @@ events, and subscriptions expressively, and without noise.
 
 To understand how this application works, I would recommend 
 1. starting in 
-[src/cljs/paul_reduce/views.cljs](../src/cljs/paul_reduce/views.cljs) to 
+[src/cljs/paul_reduce/views.cljs](../master/src/cljs/paul_reduce/views.cljs) to 
 understand how React.JS components are rendered using simple CLJS functions one 
 way bound to subscriptions, and raise reagent events.
 2. review 
-[src/cljs/paul_reduce/handers.cljs](../src/cljs/paul_reduce/handers.cljs) to 
+[src/cljs/paul_reduce/handers.cljs](../master/src/cljs/paul_reduce/handers.cljs) to 
 understand event handlers swap! the app-db atom implicitly
-3. review [src/cljs/paul_reduce/subs.cljs](../src/cljs/paul_reduce/subs.cljs) to
+3. review [src/cljs/paul_reduce/subs.cljs](../master/src/cljs/paul_reduce/subs.cljs) to
  view subscriptions - view delegates of app-db allowing the view React.JS 
  components render when needed, supplied with data in the most helpful way. 
 4. To further understand this, when starting using figwheel, enter 
