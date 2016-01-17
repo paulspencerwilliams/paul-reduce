@@ -35,9 +35,9 @@ make it worthwhile and sufficiently deep to see CLJS warts and all. As I'm also
 trying to lose weight, I thought a simple weight tracking/graphing application 
 would be ideal and actually useful too. This is that application.  
 
-I initially looked at Om which seems a little ~~complicated~~hard to learn 
-whilst picking up CLJS, [Figwheel](https://github.com/bhauman/lein-figwheel), 
-etc. I then started looking at 
+I initially looked at [Om](https://github.com/omcljs/om) which seems a little 
+~~complicated~~hard to learn whilst picking up CLJS, [Figwheel]
+(https://github.com/bhauman/lein-figwheel), etc. I then started looking at 
 [Reagent](https://github.com/reagent-project/reagent) which whilst seeming 
 simpler, and more focused left lacking in terms of 'framework guidance' or and 
 idiomatic way to build a simple app.
