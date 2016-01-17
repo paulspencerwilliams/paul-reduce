@@ -77,13 +77,77 @@ Datomic is an innovative database that supports time as a first class citizen.
 , and [3]
 (http://gigasquidsoftware.com/blog/2015/08/25/converstations-with-datomic-3)).
   
-The master branch of paul-reduce uses the in-memory datomic-free which 
-deliberately trades elimination of separate installation / configuration of 
-Datomic, for the inability to remotely connect from a REPL and explore. This 
-is sufficient to quickly get to grips with this application. 
+This datomic-pro branch of paul-reduce has a git commit 
+[d377f18befc5987d52cf71520f15bb8a6cb97543]
+(https://github.com/paulspencerwilliams/paul-reduce/commit/d377f18befc5987d52cf71520f15bb8a6cb97543)
+ that reconfigures the application to use a Datomic Pro Starter instance on 
+ the default port 4334.
+ 
+To run this branch, download and follow the official [instructions]
+(http://docs.datomic.com/getting-started.html) to get a 
+Datomic Pro Starter running locally and then...
 
-However, if you really want to dive in a little deeper on how I used Datomic,
- I recommend switching to the datomic-pro branch where I reconfigure the 
- application to use a separately installed, local instance of Datomic. Please
- refer to the Readme in that branch for installation guidance, and the 
- cheat-sheet I used at the Birmingham FP meetup to time travel!
+To run this application using the Datomic Pro Starter instance, follow the 
+normal steps:
+
+```
+lein figwheel
+```
+
+
+When I presented this application at the Birmingham Functional Programming 
+Meetup, I issued the following Datalog queries after recording a few weights 
+in the application to view, and understand how Datomic stores, and replaces 
+facts to support immutable persistence with time as a first class citizen:
+
+Start a Clojure REPL
+```
+lein repl
+```
+
+Import the Datomic and supporting libraries
+```
+(require
+  '[datomic.api :as d]
+  '[datomic.query :as q])
+
+(use '[clojure.string :only (join split)])
+```
+
+Connect to the Datomic Pro Starter instance:
+
+```
+(def uri "datomic:dev://localhost:4334/health-tracker")
+(def conn (d/connect uri))
+```
+
+Pretty print the current recorded weights
+
+```
+(println (join  "\n" 
+(d/q '[:find (pull ?e [*]) :where [?e :health/date]] (d/db conn))))
+```
+
+Pretty print all facts included those retracted to show how history is built up:
+```
+(println 
+  (join  
+    "\n" 
+    (sort-by #(nth % 3)
+    (d/q '[:find ?e ?a ?v ?tx ?op
+       :in $
+       :where [?e :health/date]
+       [?e ?a ?v ?tx ?op]]
+     (d/history (d/db conn))))))
+```
+
+Pretty print previous state of the database as of a previous transaction. 
+Please replace XXXX with a previous transaction id from the previous query.
+```
+(println 
+  (join  
+    "\n" 
+    (d/q 
+      '[:find (pull ?e [*]) :where [?e :health/date]]
+      (d/as-of (d/db conn) XXXX))))
+```
